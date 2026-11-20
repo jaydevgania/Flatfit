@@ -32,91 +32,31 @@ jobs:
 
       - name: Prepare Clean Android Platform
         run: |
-          echo "=== 1. Generating pristine Flutter 3.24 Android scaffolding ==="
+          echo "=== 1. Backing up FlatFit AndroidManifest ==="
+          cp flatfit/android/app/src/main/AndroidManifest.xml /tmp/AndroidManifest.xml
+
+          echo "=== 2. Generating pristine Flutter 3.24 Android scaffolding ==="
           flutter create /tmp/fresh_app --platforms=android --org=com.flatfit --project-name=app
           rm -rf flatfit/android
           cp -r /tmp/fresh_app/android flatfit/android
           rm -rf /tmp/fresh_app
 
-          echo "=== 2. Setting up drawables for AAPT ==="
+          echo "=== 3. Restoring FlatFit AndroidManifest and setting up drawables ==="
+          cp /tmp/AndroidManifest.xml flatfit/android/app/src/main/AndroidManifest.xml
           mkdir -p flatfit/android/app/src/main/res/drawable
           mkdir -p flatfit/android/app/src/main/res/drawable-v21
           if [ -f flatfit/android/app/src/main/res/drawable-v21/launch_background.xml ]; then
             cp -f flatfit/android/app/src/main/res/drawable-v21/launch_background.xml flatfit/android/app/src/main/res/drawable/launch_background.xml
           fi
 
-          echo "=== 3. Writing FlatFit custom AndroidManifest ==="
-          cat << 'EOF' > flatfit/android/app/src/main/AndroidManifest.xml
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32"/>
-    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
-    <uses-permission android:name="android.permission.VIBRATE"/>
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
-
-    <application
-        android:label="FlatFit"
-        android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher"
-        android:allowBackup="false"
-        android:supportsRtl="true"
-        android:theme="@style/LaunchTheme">
-
-        <activity
-            android:name=".MainActivity"
-            android:exported="true"
-            android:launchMode="singleTop"
-            android:theme="@style/LaunchTheme"
-            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
-            android:hardwareAccelerated="true"
-            android:windowSoftInputMode="adjustResize">
-            
-            <meta-data
-              android:name="io.flutter.embedding.android.NormalTheme"
-              android:resource="@style/NormalTheme"
-              />
-            
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-
-            <!-- Deep linking for FlatFit invites and UPI redirects -->
-            <intent-filter android:autoVerify="true">
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="flatfit" android:host="app" />
-            </intent-filter>
-        </activity>
-
-        <meta-data
-            android:name="flutterEmbedding"
-            android:value="2" />
-    </application>
-    <queries>
-        <intent>
-            <action android:name="android.intent.action.PROCESS_TEXT"/>
-            <data android:mimeType="text/plain"/>
-        </intent>
-    </queries>
-</manifest>
-EOF
-
-          echo "=== 4. Updating minSdk and enabling multidex in app/build.gradle ==="
+          echo "=== 4. Updating minSdk and multiDex in app/build.gradle ==="
           sed -i 's/minSdkVersion flutter.minSdkVersion/minSdkVersion 21/g' flatfit/android/app/build.gradle || true
           sed -i 's/minSdk = flutter.minSdkVersion/minSdk = 21/g' flatfit/android/app/build.gradle || true
           sed -i '/defaultConfig {/a \        multiDexEnabled true' flatfit/android/app/build.gradle || true
-          echo '
-dependencies {
-    implementation "androidx.multidex:multidex:2.0.1"
-}
-' >> flatfit/android/app/build.gradle
+          echo '' >> flatfit/android/app/build.gradle
+          echo 'dependencies {' >> flatfit/android/app/build.gradle
+          echo '    implementation "androidx.multidex:multidex:2.0.1"' >> flatfit/android/app/build.gradle
+          echo '}' >> flatfit/android/app/build.gradle
 
       - name: Install Dependencies
         run: |
