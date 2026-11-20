@@ -27,6 +27,13 @@ jobs:
           channel: 'stable'
           cache: true
 
+      - name: Generate Clean Android Platform Harness
+        run: |
+          cd flatfit
+          rm -rf android
+          flutter create . --platforms=android --org=com.flatfit --project-name=flatfit
+          sed -i '/<application/i \    <uses-permission android:name="android.permission.INTERNET"/>\n    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>\n    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>\n    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>\n    <uses-permission android:name="android.permission.CAMERA"/>\n    <uses-permission android:name="android.permission.RECORD_AUDIO"/>\n    <uses-permission android:name="android.permission.VIBRATE"/>\n    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>' android/app/src/main/AndroidManifest.xml
+
       - name: Install Dependencies
         run: |
           cd flatfit
