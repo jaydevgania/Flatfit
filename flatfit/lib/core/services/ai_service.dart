@@ -56,7 +56,7 @@ class MockAiService implements AiService {
     required Map<String, dynamic> userAnswersB,
   }) async {
     await Future.delayed(const Duration(milliseconds: 700));
-    return const Result.success(CompatibilityInsight(
+    return Result.success(CompatibilityInsight(
       overallScore: 88,
       summary: 'You both share similar sleeping schedules, food habits, and guest preferences.',
       compatibilityPros: [

@@ -49,7 +49,10 @@ jobs:
             cp -f flatfit/android/app/src/main/res/drawable-v21/launch_background.xml flatfit/android/app/src/main/res/drawable/launch_background.xml
           fi
 
-          echo "=== 4. Updating minSdk and multiDex in app/build.gradle ==="
+          echo "=== 4. Updating compileSdk, minSdk and multiDex in app/build.gradle ==="
+          sed -i 's/compileSdk = flutter.compileSdkVersion/compileSdk = 35/g' flatfit/android/app/build.gradle || true
+          sed -i 's/compileSdkVersion flutter.compileSdkVersion/compileSdkVersion 35/g' flatfit/android/app/build.gradle || true
+          sed -i 's/compileSdk 34/compileSdk 35/g' flatfit/android/app/build.gradle || true
           sed -i 's/minSdkVersion flutter.minSdkVersion/minSdkVersion 21/g' flatfit/android/app/build.gradle || true
           sed -i 's/minSdk = flutter.minSdkVersion/minSdk = 21/g' flatfit/android/app/build.gradle || true
           sed -i '/defaultConfig {/a \        multiDexEnabled true' flatfit/android/app/build.gradle || true

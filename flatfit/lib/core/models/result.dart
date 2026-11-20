@@ -2,8 +2,8 @@
 sealed class Result<T> {
   const Result();
 
-  factory Result.success(T data) = Success<T>;
-  factory Result.failure(String message, [Exception? exception]) = Failure<T>;
+  const factory Result.success(T data) = Success<T>;
+  const factory Result.failure(String message, [Exception? exception]) = Failure<T>;
 
   bool get isSuccess => this is Success<T>;
   bool get isFailure => this is Failure<T>;

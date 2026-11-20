@@ -89,7 +89,7 @@ class SupabaseAuthRepository implements AuthRepository {
     try {
       await _remoteDataSource.signOut();
       await _secureStorage.clearAll();
-      return const Result.success(null);
+      return Result.success(null);
     } catch (e) {
       return Result.failure(e.toString());
     }
@@ -100,7 +100,7 @@ class SupabaseAuthRepository implements AuthRepository {
     try {
       await _remoteDataSource.deleteAccount();
       await _secureStorage.clearAll();
-      return const Result.success(null);
+      return Result.success(null);
     } catch (e) {
       return Result.failure(e.toString());
     }

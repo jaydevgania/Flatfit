@@ -44,7 +44,7 @@ class MockKycService implements KycService {
   @override
   Future<Result<bool>> initiateAadhaarOtp(String aadhaarNumber) async {
     await Future.delayed(const Duration(milliseconds: 500));
-    return const Result.success(true);
+    return Result.success(true);
   }
 
   @override
@@ -85,6 +85,6 @@ class MockKycService implements KycService {
     required String otp,
   }) async {
     await Future.delayed(const Duration(milliseconds: 400));
-    return const Result.success(true);
+    return Result.success(true);
   }
 }
