@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../models/hub_models.dart';
+import 'package:flatfit/features/hub/domain/models/hub_models.dart';
 
 /// Screen displaying the shared house calendar for flatmate transparency.
 class SharedCalendarScreen extends StatefulWidget {

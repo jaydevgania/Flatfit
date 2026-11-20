@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../models/agreement_models.dart';
-import '../services/digital_signature_service.dart';
+import 'package:flatfit/features/agreements/domain/models/agreement_models.dart';
+import 'package:flatfit/features/agreements/domain/services/digital_signature_service.dart';
 
 /// Interactive digital signing canvas screen with legal declaration.
 class DigitalSignScreen extends StatefulWidget {

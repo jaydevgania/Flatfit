@@ -1,5 +1,5 @@
 import 'dart:convert';
-import '../models/agreement_models.dart';
+import 'package:flatfit/features/agreements/domain/models/agreement_models.dart';
 
 /// Digital signature capture result.
 class DigitalSignatureResult {

@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import '../../../../flatfit/lib/features/verification/domain/review_model.dart';
-import '../../../../flatfit/lib/features/verification/domain/review_tags.dart';
-import '../../../../flatfit/lib/features/verification/domain/trust_score_model.dart';
+import 'package:flatfit/features/verification/domain/review_model.dart';
+import 'package:flatfit/features/verification/domain/review_tags.dart';
+import 'package:flatfit/features/verification/domain/trust_score_model.dart';
 
 void main() {
   group('Trust Score and Verification Algorithm Tests', () {

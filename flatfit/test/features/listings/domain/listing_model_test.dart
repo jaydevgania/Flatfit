@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
-import '../../../../flatfit/lib/features/listings/domain/furnishing_type.dart';
-import '../../../../flatfit/lib/features/listings/domain/listing_filters.dart';
-import '../../../../flatfit/lib/features/listings/domain/listing_model.dart';
-import '../../../../flatfit/lib/features/listings/domain/listing_type.dart';
+import 'package:flatfit/features/listings/domain/furnishing_type.dart';
+import 'package:flatfit/features/listings/domain/listing_filters.dart';
+import 'package:flatfit/features/listings/domain/listing_model.dart';
+import 'package:flatfit/features/listings/domain/listing_type.dart';
 
 void main() {
   group('Listing Domain and Quality Score Tests', () {

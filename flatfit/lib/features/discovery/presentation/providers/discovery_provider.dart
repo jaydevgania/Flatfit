@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../matching/domain/profile.dart';
-import '../../matching/presentation/providers/matching_provider.dart';
-import '../data/discovery_data_source.dart';
-import '../data/discovery_repository.dart';
+import 'package:flatfit/features/matching/domain/profile.dart';
+import 'package:flatfit/features/matching/presentation/providers/matching_provider.dart';
+import 'package:flatfit/features/discovery/data/discovery_data_source.dart';
+import 'package:flatfit/features/discovery/data/discovery_repository.dart';
 import 'filters_provider.dart';
 
 final discoveryDataSourceProvider = Provider<DiscoveryDataSource>((ref) {

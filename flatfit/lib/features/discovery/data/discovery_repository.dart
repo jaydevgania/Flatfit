@@ -1,7 +1,7 @@
-import '../../matching/domain/profile.dart';
-import '../domain/discovery_filters.dart';
-import '../domain/group_search_model.dart';
-import '../domain/interest_model.dart';
+import 'package:flatfit/features/matching/domain/profile.dart';
+import 'package:flatfit/features/discovery/domain/discovery_filters.dart';
+import 'package:flatfit/features/discovery/domain/group_search_model.dart';
+import 'package:flatfit/features/discovery/domain/interest_model.dart';
 import 'discovery_data_source.dart';
 
 /// Repository for the Discovery feature.

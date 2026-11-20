@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../models/hub_models.dart';
+import 'package:flatfit/features/hub/domain/models/hub_models.dart';
 
 /// Card displaying a flat notice with pin status, category icon, and author timestamp.
 class NoticeCard extends StatelessWidget {

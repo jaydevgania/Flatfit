@@ -1,4 +1,4 @@
-import '../models/hub_models.dart';
+import 'package:flatfit/features/hub/domain/models/hub_models.dart';
 
 /// Predefined guest announcement templates for 1-tap sharing.
 class GuestAnnouncementTemplate {

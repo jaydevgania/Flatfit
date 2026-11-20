@@ -1,6 +1,6 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
-import '../../matching/domain/profile.dart';
+import 'package:flatfit/features/matching/domain/profile.dart';
 import 'compatibility_badge.dart';
 
 /// Draggable Tinder-style swipe card displaying a flatmate candidate profile.

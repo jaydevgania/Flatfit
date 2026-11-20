@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../models/move_in_checklist_models.dart';
+import 'package:flatfit/features/agreements/domain/models/move_in_checklist_models.dart';
 import '../widgets/checklist_item_tile.dart';
 
 /// Screen enabling flatmates to inspect and document condition on move-in day.

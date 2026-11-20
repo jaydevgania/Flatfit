@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../matching/presentation/providers/matching_provider.dart';
-import '../domain/discovery_filters.dart';
+import 'package:flatfit/features/matching/presentation/providers/matching_provider.dart';
+import 'package:flatfit/features/discovery/domain/discovery_filters.dart';
 import '../providers/discovery_provider.dart';
 import '../providers/filters_provider.dart';
 

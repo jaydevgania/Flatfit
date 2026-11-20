@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../models/hub_models.dart';
+import 'package:flatfit/features/hub/domain/models/hub_models.dart';
 
 /// Screen managing the flat's shared grocery checklist and convert-to-expense flow.
 class GroceryListScreen extends StatefulWidget {

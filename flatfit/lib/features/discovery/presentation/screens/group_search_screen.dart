@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../matching/presentation/providers/matching_provider.dart';
-import '../domain/group_search_model.dart';
+import 'package:flatfit/features/matching/presentation/providers/matching_provider.dart';
+import 'package:flatfit/features/discovery/domain/group_search_model.dart';
 import '../providers/discovery_provider.dart';
 
 /// Screen for Group Matching (2 to 4 friends searching together).

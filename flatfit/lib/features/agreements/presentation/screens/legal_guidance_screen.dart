@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../models/legal_guidance_models.dart';
+import 'package:flatfit/features/agreements/domain/models/legal_guidance_models.dart';
 
 /// Screen providing state-wise rent agreement rules (Maharashtra, Karnataka, Delhi),
 /// e-stamping step-by-step instructions, and an interactive stamp duty calculator.

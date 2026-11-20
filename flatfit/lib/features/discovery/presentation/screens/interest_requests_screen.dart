@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../domain/interest_model.dart';
+import 'package:flatfit/features/discovery/domain/interest_model.dart';
 import '../providers/interest_provider.dart';
 import 'profile_detail_screen.dart';
 

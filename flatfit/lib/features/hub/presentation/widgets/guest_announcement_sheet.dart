@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../services/hub_service.dart';
+import 'package:flatfit/features/hub/domain/services/hub_service.dart';
 
 /// Modal bottom sheet allowing users to publish one-tap guest & house announcements.
 class GuestAnnouncementSheet extends StatefulWidget {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../models/agreement_models.dart';
-import '../services/agreement_builder.dart';
+import 'package:flatfit/features/agreements/domain/models/agreement_models.dart';
+import 'package:flatfit/features/agreements/domain/services/agreement_builder.dart';
 
 /// Interactive builder for configuring and generating house rules and co-living agreements.
 class AgreementBuilderScreen extends StatefulWidget {

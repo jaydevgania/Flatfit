@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../matching/presentation/providers/matching_provider.dart';
-import '../domain/interest_model.dart';
+import 'package:flatfit/features/matching/presentation/providers/matching_provider.dart';
+import 'package:flatfit/features/discovery/domain/interest_model.dart';
 import 'discovery_provider.dart';
 
 class InterestState {

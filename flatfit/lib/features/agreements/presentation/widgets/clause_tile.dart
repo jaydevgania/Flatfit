@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../models/agreement_models.dart';
+import 'package:flatfit/features/agreements/domain/models/agreement_models.dart';
 
 /// Reusable card displaying an agreement clause with category icon and plain-language badge.
 class ClauseTile extends StatelessWidget {

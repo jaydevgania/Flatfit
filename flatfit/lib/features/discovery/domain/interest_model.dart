@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import '../../matching/domain/profile.dart';
+import 'package:flatfit/features/matching/domain/profile.dart';
 
 enum InterestStatus {
   pending,

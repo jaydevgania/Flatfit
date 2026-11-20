@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../matching/domain/profile.dart';
+import 'package:flatfit/features/matching/domain/profile.dart';
 import '../providers/discovery_provider.dart';
 import '../widgets/swipe_card.dart';
 import 'profile_detail_screen.dart';

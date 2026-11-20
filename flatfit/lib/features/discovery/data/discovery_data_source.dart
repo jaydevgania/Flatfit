@@ -1,8 +1,8 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../../matching/domain/profile.dart';
-import '../domain/discovery_filters.dart';
-import '../domain/group_search_model.dart';
-import '../domain/interest_model.dart';
+import 'package:flatfit/features/matching/domain/profile.dart';
+import 'package:flatfit/features/discovery/domain/discovery_filters.dart';
+import 'package:flatfit/features/discovery/domain/group_search_model.dart';
+import 'package:flatfit/features/discovery/domain/interest_model.dart';
 
 /// Data source executing Supabase queries for discovery, filters, shortlists, interests, and groups.
 class DiscoveryDataSource {

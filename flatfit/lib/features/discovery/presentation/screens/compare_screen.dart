@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../matching/domain/profile.dart';
+import 'package:flatfit/features/matching/domain/profile.dart';
 import '../providers/interest_provider.dart';
 import '../providers/shortlist_provider.dart';
 import '../widgets/compare_column.dart';

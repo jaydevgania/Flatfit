@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../models/hub_models.dart';
+import 'package:flatfit/features/hub/domain/models/hub_models.dart';
 import '../widgets/notice_card.dart';
 
 /// Full Notice Board screen with posting, category filters, and pinning.

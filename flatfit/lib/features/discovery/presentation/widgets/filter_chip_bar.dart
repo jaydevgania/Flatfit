@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../domain/discovery_filters.dart';
+import 'package:flatfit/features/discovery/domain/discovery_filters.dart';
 
 /// Horizontal scrollable bar displaying active filter pills and quick filter shortcuts.
 class FilterChipBar extends StatelessWidget {

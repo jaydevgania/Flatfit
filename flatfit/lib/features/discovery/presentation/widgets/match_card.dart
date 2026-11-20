@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../matching/domain/profile.dart';
+import 'package:flatfit/features/matching/domain/profile.dart';
 import 'compatibility_badge.dart';
 import 'compatibility_breakdown.dart';
 

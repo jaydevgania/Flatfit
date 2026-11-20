@@ -1,4 +1,4 @@
-import '../models/agreement_models.dart';
+import 'package:flatfit/features/agreements/domain/models/agreement_models.dart';
 
 /// Configuration options used by the AgreementBuilder to generate customized house rules.
 class HouseRulesConfig {

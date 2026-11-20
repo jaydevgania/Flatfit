@@ -5,7 +5,7 @@ import '../../domain/question_model.dart';
 import '../../data/questionnaire_data_source.dart';
 import '../../data/questionnaire_repository.dart';
 import '../widgets/quiz_progress_bar.dart';
-import '../../profile/presentation/providers/profile_provider.dart';
+import 'package:flatfit/features/profile/presentation/providers/profile_provider.dart';
 
 /// Questionnaire data source provider
 final questionnaireDataSourceProvider = Provider<QuestionnaireDataSource>((ref) {

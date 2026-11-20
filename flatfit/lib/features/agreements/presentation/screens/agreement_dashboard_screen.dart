@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../models/agreement_models.dart';
-import '../models/legal_guidance_models.dart';
-import '../services/agreement_builder.dart';
+import 'package:flatfit/features/agreements/domain/models/agreement_models.dart';
+import 'package:flatfit/features/agreements/domain/models/legal_guidance_models.dart';
+import 'package:flatfit/features/agreements/domain/services/agreement_builder.dart';
 import '../widgets/agreement_card.dart';
 import 'agreement_builder_screen.dart';
 import 'agreement_details_screen.dart';

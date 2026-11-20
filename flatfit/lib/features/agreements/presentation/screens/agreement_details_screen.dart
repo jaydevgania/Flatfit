@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../models/agreement_models.dart';
+import 'package:flatfit/features/agreements/domain/models/agreement_models.dart';
 import '../widgets/clause_tile.dart';
 import 'digital_sign_screen.dart';
 

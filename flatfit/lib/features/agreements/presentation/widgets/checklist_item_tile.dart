@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../models/move_in_checklist_models.dart';
+import 'package:flatfit/features/agreements/domain/models/move_in_checklist_models.dart';
 
 /// Reusable list tile displaying a move-in checklist inspection item.
 class ChecklistItemTile extends StatelessWidget {

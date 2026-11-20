@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../models/hub_models.dart';
+import 'package:flatfit/features/hub/domain/models/hub_models.dart';
 
 /// Card displaying appliance details, purchase date, warranty badge, and technician contact.
 class ApplianceCard extends StatelessWidget {

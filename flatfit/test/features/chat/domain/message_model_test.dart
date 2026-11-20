@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import '../../../../flatfit/lib/features/chat/domain/chat_enums.dart';
-import '../../../../flatfit/lib/features/chat/domain/conversation_model.dart';
-import '../../../../flatfit/lib/features/chat/domain/message_model.dart';
+import 'package:flatfit/features/chat/domain/chat_enums.dart';
+import 'package:flatfit/features/chat/domain/conversation_model.dart';
+import 'package:flatfit/features/chat/domain/message_model.dart';
 
 void main() {
   group('Message and Conversation Domain Tests', () {

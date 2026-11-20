@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../models/hub_models.dart';
-import '../services/hub_service.dart';
+import 'package:flatfit/features/hub/domain/models/hub_models.dart';
+import 'package:flatfit/features/hub/domain/services/hub_service.dart';
 import '../widgets/quiet_hours_banner.dart';
 import '../widgets/guest_announcement_sheet.dart';
 import '../widgets/notice_card.dart';

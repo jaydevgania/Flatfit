@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../matching/presentation/providers/matching_provider.dart';
+import 'package:flatfit/features/matching/presentation/providers/matching_provider.dart';
 import '../providers/discovery_provider.dart';
 import '../providers/interest_provider.dart';
 import '../providers/shortlist_provider.dart';

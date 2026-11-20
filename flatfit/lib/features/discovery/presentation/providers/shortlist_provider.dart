@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../matching/domain/profile.dart';
-import '../../matching/presentation/providers/matching_provider.dart';
+import 'package:flatfit/features/matching/domain/profile.dart';
+import 'package:flatfit/features/matching/presentation/providers/matching_provider.dart';
 import 'discovery_provider.dart';
 
 class ShortlistState {
