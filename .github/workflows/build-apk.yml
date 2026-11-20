@@ -27,11 +27,30 @@ jobs:
           channel: 'stable'
           cache: true
 
-      - name: Prepare Android Platform
+      - name: Prepare Clean Android Platform
         run: |
-          cd flatfit
-          rm -rf android
-          flutter create . --platforms=android --org=com.flatfit --project-name=flatfit
+          echo "=== 1. Backing up FlatFit custom AndroidManifest and styles ==="
+          mkdir -p /tmp/flatfit_backup
+          if [ -f flatfit/android/app/src/main/AndroidManifest.xml ]; then
+            cp flatfit/android/app/src/main/AndroidManifest.xml /tmp/flatfit_backup/AndroidManifest.xml
+          fi
+
+          echo "=== 2. Generating pristine Flutter 3.24 Android scaffolding ==="
+          flutter create /tmp/fresh_app --platforms=android --org=com.flatfit --project-name=flatfit
+          rm -rf flatfit/android
+          cp -r /tmp/fresh_app/android flatfit/android
+          rm -rf /tmp/fresh_app
+
+          echo "=== 3. Restoring FlatFit custom AndroidManifest ==="
+          if [ -f /tmp/flatfit_backup/AndroidManifest.xml ]; then
+            # Clean package attribute for AGP 8 namespace compatibility
+            sed -i 's/package="com.flatfit.app"//g' /tmp/flatfit_backup/AndroidManifest.xml
+            cp /tmp/flatfit_backup/AndroidManifest.xml flatfit/android/app/src/main/AndroidManifest.xml
+          fi
+
+          echo "=== 4. Updating minSdk to 21 for modern plugins ==="
+          sed -i 's/minSdkVersion flutter.minSdkVersion/minSdkVersion 21/g' flatfit/android/app/build.gradle || true
+          sed -i 's/minSdk = flutter.minSdkVersion/minSdk = 21/g' flatfit/android/app/build.gradle || true
 
       - name: Install Dependencies
         run: |
@@ -53,5 +72,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: flatfit-release-apk
-          path: flatfit/build/app/outputs/flutter-apk/app-release.apk
+          path: flatfit/build/app/outputs/flutter-apk/*.apk
           retention-days: 14
