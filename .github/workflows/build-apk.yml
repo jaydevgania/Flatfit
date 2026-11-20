@@ -5,6 +5,9 @@ on:
     branches: [ main ]
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build-apk:
     name: Build Android APK
@@ -29,46 +32,91 @@ jobs:
 
       - name: Prepare Clean Android Platform
         run: |
-          echo "=== 1. Backing up FlatFit custom AndroidManifest and res ==="
-          mkdir -p /tmp/flatfit_backup
-          if [ -f flatfit/android/app/src/main/AndroidManifest.xml ]; then
-            cp flatfit/android/app/src/main/AndroidManifest.xml /tmp/flatfit_backup/AndroidManifest.xml
-          fi
-          if [ -d flatfit/android/app/src/main/res ]; then
-            cp -r flatfit/android/app/src/main/res /tmp/flatfit_backup/res
-          fi
-
-          echo "=== 2. Generating pristine Flutter 3.24 Android scaffolding with com.flatfit.app ==="
+          echo "=== 1. Generating pristine Flutter 3.24 Android scaffolding ==="
           flutter create /tmp/fresh_app --platforms=android --org=com.flatfit --project-name=app
           rm -rf flatfit/android
           cp -r /tmp/fresh_app/android flatfit/android
           rm -rf /tmp/fresh_app
 
-          echo "=== 3. Restoring FlatFit custom AndroidManifest and individual resources ==="
-          if [ -f /tmp/flatfit_backup/AndroidManifest.xml ]; then
-            sed -i 's/package="com.flatfit.app"//g' /tmp/flatfit_backup/AndroidManifest.xml
-            cp /tmp/flatfit_backup/AndroidManifest.xml flatfit/android/app/src/main/AndroidManifest.xml
-          fi
-
+          echo "=== 2. Setting up drawables for AAPT ==="
           mkdir -p flatfit/android/app/src/main/res/drawable
           mkdir -p flatfit/android/app/src/main/res/drawable-v21
-          mkdir -p flatfit/android/app/src/main/res/values
-          mkdir -p flatfit/android/app/src/main/res/mipmap-anydpi-v26
-
-          if [ -d /tmp/flatfit_backup/res/drawable ]; then
-            cp -f /tmp/flatfit_backup/res/drawable/* flatfit/android/app/src/main/res/drawable/
-            cp -f /tmp/flatfit_backup/res/drawable/* flatfit/android/app/src/main/res/drawable-v21/
-          fi
-          if [ -d /tmp/flatfit_backup/res/values ]; then
-            cp -f /tmp/flatfit_backup/res/values/* flatfit/android/app/src/main/res/values/
-          fi
-          if [ -d /tmp/flatfit_backup/res/mipmap-anydpi-v26 ]; then
-            cp -f /tmp/flatfit_backup/res/mipmap-anydpi-v26/* flatfit/android/app/src/main/res/mipmap-anydpi-v26/
+          if [ -f flatfit/android/app/src/main/res/drawable-v21/launch_background.xml ]; then
+            cp -f flatfit/android/app/src/main/res/drawable-v21/launch_background.xml flatfit/android/app/src/main/res/drawable/launch_background.xml
           fi
 
-          echo "=== 4. Updating minSdk to 21 and multiDex ==="
+          echo "=== 3. Writing FlatFit custom AndroidManifest ==="
+          cat << 'EOF' > flatfit/android/app/src/main/AndroidManifest.xml
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+
+    <application
+        android:label="FlatFit"
+        android:name="${applicationName}"
+        android:icon="@mipmap/ic_launcher"
+        android:allowBackup="false"
+        android:supportsRtl="true"
+        android:theme="@style/LaunchTheme">
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:theme="@style/LaunchTheme"
+            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+            android:hardwareAccelerated="true"
+            android:windowSoftInputMode="adjustResize">
+            
+            <meta-data
+              android:name="io.flutter.embedding.android.NormalTheme"
+              android:resource="@style/NormalTheme"
+              />
+            
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+
+            <!-- Deep linking for FlatFit invites and UPI redirects -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="flatfit" android:host="app" />
+            </intent-filter>
+        </activity>
+
+        <meta-data
+            android:name="flutterEmbedding"
+            android:value="2" />
+    </application>
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.PROCESS_TEXT"/>
+            <data android:mimeType="text/plain"/>
+        </intent>
+    </queries>
+</manifest>
+EOF
+
+          echo "=== 4. Updating minSdk and enabling multidex in app/build.gradle ==="
           sed -i 's/minSdkVersion flutter.minSdkVersion/minSdkVersion 21/g' flatfit/android/app/build.gradle || true
           sed -i 's/minSdk = flutter.minSdkVersion/minSdk = 21/g' flatfit/android/app/build.gradle || true
+          sed -i '/defaultConfig {/a \        multiDexEnabled true' flatfit/android/app/build.gradle || true
+          echo '
+dependencies {
+    implementation "androidx.multidex:multidex:2.0.1"
+}
+' >> flatfit/android/app/build.gradle
 
       - name: Install Dependencies
         run: |
@@ -99,9 +147,12 @@ jobs:
       - name: Print Build Error
         if: failure()
         run: |
+          echo "==================== BUILD APK FAILURE LOG ===================="
+          cat /tmp/build_apk.log || true
+          echo "================================================================"
           echo "### Build APK Failure Log" >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
-          tail -n 80 /tmp/build_apk.log >> $GITHUB_STEP_SUMMARY
+          tail -n 100 /tmp/build_apk.log >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
 
       - name: Upload Logs on Failure
@@ -120,3 +171,17 @@ jobs:
           name: flatfit-release-apk
           path: flatfit/build/app/outputs/**/*.apk
           retention-days: 14
+
+      - name: Create GitHub Release
+        if: success()
+        continue-on-error: true
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v1.0.0-apk
+          name: "FlatFit Android App v1.0.0"
+          body: "Official FlatFit Android Release APK — Compatibility-first flatmate matching & co-living platform for India."
+          files: flatfit/build/app/outputs/flutter-apk/*.apk
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
