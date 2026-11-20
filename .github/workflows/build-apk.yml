@@ -44,13 +44,26 @@ jobs:
           cp -r /tmp/fresh_app/android flatfit/android
           rm -rf /tmp/fresh_app
 
-          echo "=== 3. Restoring FlatFit custom AndroidManifest and res ==="
+          echo "=== 3. Restoring FlatFit custom AndroidManifest and individual resources ==="
           if [ -f /tmp/flatfit_backup/AndroidManifest.xml ]; then
             sed -i 's/package="com.flatfit.app"//g' /tmp/flatfit_backup/AndroidManifest.xml
             cp /tmp/flatfit_backup/AndroidManifest.xml flatfit/android/app/src/main/AndroidManifest.xml
           fi
-          if [ -d /tmp/flatfit_backup/res ]; then
-            cp -r /tmp/flatfit_backup/res/* flatfit/android/app/src/main/res/
+
+          mkdir -p flatfit/android/app/src/main/res/drawable
+          mkdir -p flatfit/android/app/src/main/res/drawable-v21
+          mkdir -p flatfit/android/app/src/main/res/values
+          mkdir -p flatfit/android/app/src/main/res/mipmap-anydpi-v26
+
+          if [ -d /tmp/flatfit_backup/res/drawable ]; then
+            cp -f /tmp/flatfit_backup/res/drawable/* flatfit/android/app/src/main/res/drawable/
+            cp -f /tmp/flatfit_backup/res/drawable/* flatfit/android/app/src/main/res/drawable-v21/
+          fi
+          if [ -d /tmp/flatfit_backup/res/values ]; then
+            cp -f /tmp/flatfit_backup/res/values/* flatfit/android/app/src/main/res/values/
+          fi
+          if [ -d /tmp/flatfit_backup/res/mipmap-anydpi-v26 ]; then
+            cp -f /tmp/flatfit_backup/res/mipmap-anydpi-v26/* flatfit/android/app/src/main/res/mipmap-anydpi-v26/
           fi
 
           echo "=== 4. Updating minSdk to 21 and multiDex ==="
