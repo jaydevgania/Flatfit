@@ -29,7 +29,7 @@ jobs:
 
       - name: Prepare Clean Android Platform
         run: |
-          echo "=== 1. Backing up FlatFit custom AndroidManifest and styles ==="
+          echo "=== 1. Backing up FlatFit custom AndroidManifest ==="
           mkdir -p /tmp/flatfit_backup
           if [ -f flatfit/android/app/src/main/AndroidManifest.xml ]; then
             cp flatfit/android/app/src/main/AndroidManifest.xml /tmp/flatfit_backup/AndroidManifest.xml
@@ -43,7 +43,6 @@ jobs:
 
           echo "=== 3. Restoring FlatFit custom AndroidManifest ==="
           if [ -f /tmp/flatfit_backup/AndroidManifest.xml ]; then
-            # Clean package attribute for AGP 8 namespace compatibility
             sed -i 's/package="com.flatfit.app"//g' /tmp/flatfit_backup/AndroidManifest.xml
             cp /tmp/flatfit_backup/AndroidManifest.xml flatfit/android/app/src/main/AndroidManifest.xml
           fi
@@ -55,7 +54,17 @@ jobs:
       - name: Install Dependencies
         run: |
           cd flatfit
-          flutter pub get
+          flutter pub get 2>&1 | tee /tmp/pub_get_log.txt
+
+      - name: Report Pub Get Summary
+        if: always()
+        run: |
+          echo "### Flutter Pub Get Log" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          if [ -f /tmp/pub_get_log.txt ]; then
+            tail -n 50 /tmp/pub_get_log.txt >> $GITHUB_STEP_SUMMARY
+          fi
+          echo '```' >> $GITHUB_STEP_SUMMARY
 
       - name: Run Unit Tests
         run: |
