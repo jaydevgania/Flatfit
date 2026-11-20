@@ -5,9 +5,6 @@ on:
     branches: [ main ]
   workflow_dispatch:
 
-permissions:
-  contents: write
-
 jobs:
   build-apk:
     name: Build Android APK
@@ -16,8 +13,6 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Set up Java 17
         uses: actions/setup-java@v4
@@ -75,44 +70,12 @@ jobs:
 
       - name: Build Android Release APK
         run: |
-          set -e -o pipefail
           cd flatfit
-          flutter build apk --release --no-tree-shake-icons 2>&1 | tee /tmp/build_log.txt
-          test -f build/app/outputs/flutter-apk/app-release.apk
-
-      - name: Dump Build Log
-        if: always()
-        run: |
-          echo "=== TAIL OF BUILD LOG ==="
-          if [ -f /tmp/build_log.txt ]; then
-            tail -n 120 /tmp/build_log.txt
-          fi
-
-      - name: Push Error Log to Branch on Failure
-        if: failure()
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git checkout -b ci-build-log 2>/dev/null || git checkout ci-build-log
-          cp /tmp/build_log.txt ./build_error.log 2>/dev/null || echo "No log captured" > ./build_error.log
-          git add ./build_error.log
-          git commit -m "ci: capture build error log [skip ci]" || true
-          git push -f origin ci-build-log || true
+          flutter build apk --release --no-tree-shake-icons
 
       - name: Upload APK Artifact
-        if: success()
         uses: actions/upload-artifact@v4
         with:
           name: flatfit-release-apk
-          path: flatfit/build/app/outputs/flutter-apk/app-release.apk
+          path: flatfit/build/app/outputs/flutter-apk/*.apk
           retention-days: 14
-
-      - name: Publish GitHub Release
-        if: success()
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          gh release delete v1.0.0 --yes --cleanup-tag 2>/dev/null || true
-          gh release create v1.0.0 flatfit/build/app/outputs/flutter-apk/app-release.apk \
-            --title "FlatFit v1.0.0 Release APK" \
-            --notes "Official FlatFit Android Release APK (Direct Download)"
