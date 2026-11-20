@@ -32,30 +32,7 @@ jobs:
           cd flatfit
           rm -rf android
           flutter create . --platforms=android --org=com.flatfit --project-name=flatfit
-          python3 -c '
-          with open("android/app/src/main/AndroidManifest.xml", "r") as f:
-              c = f.read()
-          perms = """
-              <uses-permission android:name="android.permission.INTERNET"/>
-              <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-              <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-              <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-              <uses-permission android:name="android.permission.CAMERA"/>
-              <uses-permission android:name="android.permission.RECORD_AUDIO"/>
-              <uses-permission android:name="android.permission.VIBRATE"/>
-              <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
-          """
-          c = c.replace("<application", perms + "\n    <application")
-          with open("android/app/src/main/AndroidManifest.xml", "w") as f:
-              f.write(c)
-
-          with open("android/app/build.gradle", "r") as f:
-              bg = f.read()
-          bg = bg.replace("minSdkVersion flutter.minSdkVersion", "minSdkVersion 21")
-          bg = bg.replace("minSdk = flutter.minSdkVersion", "minSdk = 21")
-          with open("android/app/build.gradle", "w") as f:
-              f.write(bg)
-          '
+          python3 -c "f='android/app/src/main/AndroidManifest.xml'; open(f,'w').write(open(f).read().replace('<application', '<uses-permission android:name=\"android.permission.INTERNET\"/>\n    <application'))"
 
       - name: Install Dependencies
         run: |
@@ -71,7 +48,13 @@ jobs:
       - name: Build Android Release APK
         run: |
           cd flatfit
-          flutter build apk --release --no-tree-shake-icons
+          flutter build apk --release --no-tree-shake-icons --verbose > build.log 2>&1 || (
+            echo "## ❌ Build Error Log" >> $GITHUB_STEP_SUMMARY
+            echo '```text' >> $GITHUB_STEP_SUMMARY
+            tail -n 150 build.log >> $GITHUB_STEP_SUMMARY
+            echo '```' >> $GITHUB_STEP_SUMMARY
+            exit 1
+          )
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
