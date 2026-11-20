@@ -1,0 +1,50 @@
+name: Build FlatFit Android APK
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build-apk:
+    name: Build Android APK
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.24.3'
+          channel: 'stable'
+          cache: true
+
+      - name: Install Dependencies
+        run: |
+          cd flatfit
+          flutter pub get
+
+      - name: Run Unit Tests
+        run: |
+          cd flatfit
+          flutter test
+
+      - name: Build Android Release APK
+        run: |
+          cd flatfit
+          flutter build apk --release --no-tree-shake-icons
+
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: flatfit-release-apk
+          path: flatfit/build/app/outputs/flutter-apk/app-release.apk
+          retention-days: 14
