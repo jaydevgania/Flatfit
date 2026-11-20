@@ -27,6 +27,36 @@ jobs:
           channel: 'stable'
           cache: true
 
+      - name: Prepare Clean Android Platform
+        run: |
+          echo "=== 1. Backing up FlatFit custom AndroidManifest and res ==="
+          mkdir -p /tmp/flatfit_backup
+          if [ -f flatfit/android/app/src/main/AndroidManifest.xml ]; then
+            cp flatfit/android/app/src/main/AndroidManifest.xml /tmp/flatfit_backup/AndroidManifest.xml
+          fi
+          if [ -d flatfit/android/app/src/main/res ]; then
+            cp -r flatfit/android/app/src/main/res /tmp/flatfit_backup/res
+          fi
+
+          echo "=== 2. Generating pristine Flutter 3.24 Android scaffolding with com.flatfit.app ==="
+          flutter create /tmp/fresh_app --platforms=android --org=com.flatfit --project-name=app
+          rm -rf flatfit/android
+          cp -r /tmp/fresh_app/android flatfit/android
+          rm -rf /tmp/fresh_app
+
+          echo "=== 3. Restoring FlatFit custom AndroidManifest and res ==="
+          if [ -f /tmp/flatfit_backup/AndroidManifest.xml ]; then
+            sed -i 's/package="com.flatfit.app"//g' /tmp/flatfit_backup/AndroidManifest.xml
+            cp /tmp/flatfit_backup/AndroidManifest.xml flatfit/android/app/src/main/AndroidManifest.xml
+          fi
+          if [ -d /tmp/flatfit_backup/res ]; then
+            cp -r /tmp/flatfit_backup/res/* flatfit/android/app/src/main/res/
+          fi
+
+          echo "=== 4. Updating minSdk to 21 and multiDex ==="
+          sed -i 's/minSdkVersion flutter.minSdkVersion/minSdkVersion 21/g' flatfit/android/app/build.gradle || true
+          sed -i 's/minSdk = flutter.minSdkVersion/minSdk = 21/g' flatfit/android/app/build.gradle || true
+
       - name: Install Dependencies
         run: |
           cd flatfit
