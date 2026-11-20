@@ -23,6 +23,9 @@ dependencies:
   connectivity_plus: ^6.0.3
   intl: any
 
+dependency_overrides:
+  app_links: 6.3.3
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

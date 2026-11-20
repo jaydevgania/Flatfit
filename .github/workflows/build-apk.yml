@@ -62,7 +62,13 @@ jobs:
         run: |
           cd flatfit
           flutter pub get -v 2>&1 | tee /tmp/pub_get.log
-          exit ${PIPESTATUS[0]}
+          PUB_STATUS=${PIPESTATUS[0]}
+          if [ $PUB_STATUS -ne 0 ]; then
+            exit $PUB_STATUS
+          fi
+          echo "=== Patching compileSdk in pub-cache plugins ==="
+          find /home/runner/.pub-cache -name "build.gradle" -exec sed -i 's/compileSdk = flutter.compileSdkVersion/compileSdk = 34/g' {} + 2>/dev/null || true
+          find /home/runner/.pub-cache -name "build.gradle" -exec sed -i 's/compileSdkVersion flutter.compileSdkVersion/compileSdkVersion 34/g' {} + 2>/dev/null || true
 
       - name: Print Pub Error
         if: failure()
