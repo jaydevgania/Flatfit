@@ -27,11 +27,6 @@ jobs:
           channel: 'stable'
           cache: true
 
-      - name: Create Android Platform
-        run: |
-          cd flatfit
-          flutter create --overwrite --platforms=android --org=com.flatfit .
-
       - name: Install Dependencies
         run: |
           cd flatfit
