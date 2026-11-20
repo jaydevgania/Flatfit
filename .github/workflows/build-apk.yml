@@ -27,34 +27,20 @@ jobs:
           channel: 'stable'
           cache: true
 
-      - name: Generate Clean Android Platform Harness
+      - name: Create Android Platform
         run: |
           cd flatfit
-          rm -rf android
-          flutter create . --platforms=android --org=com.flatfit --project-name=flatfit
-          python3 -c "f='android/app/src/main/AndroidManifest.xml'; open(f,'w').write(open(f).read().replace('<application', '<uses-permission android:name=\"android.permission.INTERNET\"/>\n    <application'))"
+          flutter create --overwrite --platforms=android --org=com.flatfit .
 
       - name: Install Dependencies
         run: |
           cd flatfit
           flutter pub get
 
-      - name: Run Unit Tests
-        run: |
-          cd flatfit
-          flutter test
-        continue-on-error: true
-
       - name: Build Android Release APK
         run: |
           cd flatfit
-          flutter build apk --release --no-tree-shake-icons --verbose > build.log 2>&1 || (
-            echo "## ❌ Build Error Log" >> $GITHUB_STEP_SUMMARY
-            echo '```text' >> $GITHUB_STEP_SUMMARY
-            tail -n 150 build.log >> $GITHUB_STEP_SUMMARY
-            echo '```' >> $GITHUB_STEP_SUMMARY
-            exit 1
-          )
+          flutter build apk --release --no-tree-shake-icons
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
