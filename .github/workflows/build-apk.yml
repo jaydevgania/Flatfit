@@ -30,12 +30,24 @@ jobs:
       - name: Install Dependencies
         run: |
           cd flatfit
-          flutter pub get
+          flutter pub get > pub_get.log 2>&1 || (
+            echo "## ❌ pub get Error Log" >> $GITHUB_STEP_SUMMARY
+            echo '```text' >> $GITHUB_STEP_SUMMARY
+            cat pub_get.log >> $GITHUB_STEP_SUMMARY
+            echo '```' >> $GITHUB_STEP_SUMMARY
+            exit 1
+          )
 
       - name: Build Android Release APK
         run: |
           cd flatfit
-          flutter build apk --release --no-tree-shake-icons
+          flutter build apk --release --no-tree-shake-icons > build.log 2>&1 || (
+            echo "## ❌ build apk Error Log" >> $GITHUB_STEP_SUMMARY
+            echo '```text' >> $GITHUB_STEP_SUMMARY
+            tail -n 120 build.log >> $GITHUB_STEP_SUMMARY
+            echo '```' >> $GITHUB_STEP_SUMMARY
+            exit 1
+          )
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
