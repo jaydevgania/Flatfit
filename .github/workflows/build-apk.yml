@@ -60,7 +60,16 @@ jobs:
       - name: Install Dependencies
         run: |
           cd flatfit
-          flutter pub get
+          flutter pub get -v 2>&1 | tee /tmp/pub_get.log
+          exit ${PIPESTATUS[0]}
+
+      - name: Print Pub Error
+        if: failure()
+        run: |
+          echo "### Pub Get Failure Log" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          tail -n 80 /tmp/pub_get.log >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
 
       - name: Run Unit Tests
         run: |
@@ -71,10 +80,28 @@ jobs:
       - name: Build Android Release APK
         run: |
           cd flatfit
-          flutter build apk --release --no-tree-shake-icons
+          flutter build apk --release --no-tree-shake-icons 2>&1 | tee /tmp/build_apk.log
+          exit ${PIPESTATUS[0]}
+
+      - name: Print Build Error
+        if: failure()
+        run: |
+          echo "### Build APK Failure Log" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          tail -n 80 /tmp/build_apk.log >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+
+      - name: Upload Logs on Failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: failure-logs
+          path: |
+            /tmp/pub_get.log
+            /tmp/build_apk.log
 
       - name: Upload APK Artifact
-        if: always()
+        if: success()
         uses: actions/upload-artifact@v4
         with:
           name: flatfit-release-apk
