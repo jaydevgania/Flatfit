@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:flatfit/config/routes/route_names.dart';
 import 'package:flatfit/config/theme/app_colors.dart';
 import 'package:flatfit/config/theme/app_dimensions.dart';
@@ -142,31 +141,58 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
               ),
               const SizedBox(height: AppDimensions.spacing3xl),
 
-              // 6-digit PIN input with pin_code_fields
-              PinCodeTextField(
-                appContext: context,
-                length: 6,
-                controller: _otpController,
-                keyboardType: TextInputType.number,
-                animationType: AnimationType.fade,
-                pinTheme: PinTheme(
-                  shape: PinCodeFieldShape.box,
-                  borderRadius: BorderRadius.circular(AppDimensions.inputRadius),
-                  fieldHeight: 54,
-                  fieldWidth: 44,
-                  activeFillColor: AppColors.surfaceLight,
-                  inactiveFillColor: AppColors.backgroundLight,
-                  selectedFillColor: AppColors.surfaceLight,
-                  activeColor: AppColors.primary,
-                  selectedColor: AppColors.primary,
-                  inactiveColor: AppColors.dividerLight,
-                  borderWidth: 1.5,
-                ),
-                enableActiveFill: true,
-                cursorColor: AppColors.primary,
-                autoFocus: true,
-                onCompleted: (pin) => _handleVerify(pin),
-                onChanged: (_) {},
+              // 6-digit PIN input with native Flutter styling
+              Stack(
+                alignment: Alignment.center,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: List.generate(6, (index) {
+                      final text = _otpController.text;
+                      final char = index < text.length ? text[index] : '';
+                      final isCurrent = index == text.length || (index == 5 && text.length == 6);
+                      return Container(
+                        width: 48,
+                        height: 56,
+                        decoration: BoxDecoration(
+                          color: AppColors.surfaceLight,
+                          borderRadius: BorderRadius.circular(AppDimensions.inputRadius),
+                          border: Border.all(
+                            color: isCurrent ? AppColors.primary : AppColors.dividerLight,
+                            width: isCurrent ? 2 : 1.5,
+                          ),
+                        ),
+                        alignment: Alignment.center,
+                        child: Text(
+                          char,
+                          style: AppTextStyles.headlineMedium.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.textPrimaryLight,
+                          ),
+                        ),
+                      );
+                    }),
+                  ),
+                  Opacity(
+                    opacity: 0.0,
+                    child: TextField(
+                      controller: _otpController,
+                      keyboardType: TextInputType.number,
+                      maxLength: 6,
+                      autofocus: true,
+                      decoration: const InputDecoration(
+                        counterText: '',
+                        border: InputBorder.none,
+                      ),
+                      onChanged: (val) {
+                        setState(() {});
+                        if (val.length == 6) {
+                          _handleVerify(val);
+                        }
+                      },
+                    ),
+                  ),
+                ],
               ),
 
               const SizedBox(height: AppDimensions.spacingXl),
