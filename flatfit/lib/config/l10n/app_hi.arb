@@ -1,0 +1,46 @@
+{
+  "@@locale": "hi",
+  "appName": "FlatFit",
+  "tagline": "भारत के लिए अनुकूलता-आधारित फ्लैटमेट मैचिंग",
+  "welcomeTitle": "अपने जैसे सोच-विचार वाले फ्लैटमेट खोजें",
+  "welcomeSubtitle": "भारत का पहला लाइफस्टाइल-संचालित फ्लैट और रूममेट प्लेटफॉर्म।",
+  "getStarted": "शुरू करें",
+  "alreadyHaveAccount": "क्या आपका पहले से अकाउंट है? साइन इन करें",
+  "phoneAuthTitle": "अपना मोबाइल नंबर दर्ज करें",
+  "phoneAuthSubtitle": "हम आपके अकाउंट के सत्यापन के लिए ओटीपी भेजेंगे।",
+  "phoneInputHint": "10 अंकों का मोबाइल नंबर",
+  "continueButton": "आगे बढ़ें",
+  "otpVerificationTitle": "मोबाइल नंबर सत्यापित करें",
+  "otpVerificationSubtitle": "{phoneNumber} पर भेजा गया 6 अंकों का ओटीपी दर्ज करें",
+  "@otpVerificationSubtitle": {
+    "placeholders": {
+      "phoneNumber": {
+        "type": "String"
+      }
+    }
+  },
+  "resendOtp": "ओटीपी पुनः भेजें",
+  "resendOtpIn": "{seconds} सेकंड में ओटीपी पुनः भेजें",
+  "@resendOtpIn": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "verifyAndProceed": "सत्यापित करें और आगे बढ़ें",
+  "consentTitle": "समुदाय नियम एवं सहमति",
+  "termsAgree": "मैं सेवा की शर्तों से सहमत हूँ",
+  "privacyAgree": "मैं गोपनीयता नीति से सहमत हूँ",
+  "communityAgree": "मैं FlatFit सामुदायिक दिशानिर्देशों का पालन करने के लिए सहमत हूँ",
+  "acceptAndContinue": "स्वीकार करें और आगे बढ़ें",
+  "searchHint": "इलाके, किराया, फ्लैटमेट खोजें...",
+  "homeNav": "होम",
+  "discoverNav": "खोजें",
+  "matchesNav": "मैच",
+  "chatNav": "चैट",
+  "profileNav": "प्रोफाइल",
+  "retry": "पुनः प्रयास करें",
+  "genericError": "कुछ गलत हो गया। कृपया पुन: प्रयास करें।",
+  "offlineMessage": "आप ऑफ़लाइन हैं। इंटरनेट कनेक्शन जांचें।"
+}

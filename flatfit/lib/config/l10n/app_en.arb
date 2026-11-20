@@ -1,0 +1,46 @@
+{
+  "@@locale": "en",
+  "appName": "FlatFit",
+  "tagline": "Compatibility-first flatmate matching for India",
+  "welcomeTitle": "Find Flatmates Who Actually Match Your Vibe",
+  "welcomeSubtitle": "India's lifestyle-driven roommate and flat finding platform.",
+  "getStarted": "Get Started",
+  "alreadyHaveAccount": "Already have an account? Sign In",
+  "phoneAuthTitle": "Enter your phone number",
+  "phoneAuthSubtitle": "We will send an OTP to verify your account.",
+  "phoneInputHint": "10-digit mobile number",
+  "continueButton": "Continue",
+  "otpVerificationTitle": "Verify Phone Number",
+  "otpVerificationSubtitle": "Enter 6-digit OTP sent to {phoneNumber}",
+  "@otpVerificationSubtitle": {
+    "placeholders": {
+      "phoneNumber": {
+        "type": "String"
+      }
+    }
+  },
+  "resendOtp": "Resend OTP",
+  "resendOtpIn": "Resend OTP in {seconds}s",
+  "@resendOtpIn": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "verifyAndProceed": "Verify & Proceed",
+  "consentTitle": "Community Terms & Consent",
+  "termsAgree": "I agree to the Terms of Service",
+  "privacyAgree": "I agree to the Privacy Policy",
+  "communityAgree": "I agree to follow the FlatFit Community Guidelines",
+  "acceptAndContinue": "Accept & Continue",
+  "searchHint": "Search localities, rent, flatmates...",
+  "homeNav": "Home",
+  "discoverNav": "Discover",
+  "matchesNav": "Matches",
+  "chatNav": "Chat",
+  "profileNav": "Profile",
+  "retry": "Retry",
+  "genericError": "Something went wrong. Please try again.",
+  "offlineMessage": "You are currently offline. Check your internet connection."
+}
